@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\OrderItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: OrderItemRepository::class)]
 class OrderItem
@@ -18,6 +20,22 @@ class OrderItem
 
     #[ORM\Column]
     private ?int $productPrice = null;
+
+    #[ORM\ManyToOne(inversedBy: 'OrderItem')]
+    private ?Product $product = null;
+
+    /**
+     * @var Collection<int, Order>
+     */
+    #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'OrderItem')]
+    private Collection $orders;
+
+    public function __construct()
+    {
+        $this->orders = new ArrayCollection();
+    }
+
+
 
     public function getId(): ?int
     {
@@ -51,6 +69,75 @@ class OrderItem
     public function setProductPrice(int $productPrice): static
     {
         $this->productPrice = $productPrice;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): static
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setOrderItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): static
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getOrderItem() === $this) {
+                $product->setOrderItem(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->addOrderItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): static
+    {
+        if ($this->orders->removeElement($order)) {
+            $order->removeOrderItem($this);
+        }
 
         return $this;
     }

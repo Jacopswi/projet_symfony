@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Enum\OrderStatus;
 
@@ -24,6 +26,24 @@ class Order
 
     #[ORM\Column(enumType: OrderStatus::class)]
     private ?OrderStatus $status = null; 
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'order')]
+    #[ORM\JoinColumn(nullable: false)]
+    public User $user;
+
+    /**
+     * @var Collection<int, OrderItem>
+     */
+    #[ORM\ManyToMany(targetEntity: OrderItem::class, inversedBy: 'orders')]
+    private Collection $OrderItem;
+
+    #[ORM\ManyToOne(inversedBy: 'commande')]
+    private ?User $utilisateur = null;
+
+    public function __construct()
+    {
+        $this->OrderItem = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -57,6 +77,42 @@ class Order
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderItem>
+     */
+    public function getOrderItem(): Collection
+    {
+        return $this->OrderItem;
+    }
+
+    public function addOrderItem(OrderItem $orderItem): static
+    {
+        if (!$this->OrderItem->contains($orderItem)) {
+            $this->OrderItem->add($orderItem);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderItem(OrderItem $orderItem): static
+    {
+        $this->OrderItem->removeElement($orderItem);
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?User
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?User $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

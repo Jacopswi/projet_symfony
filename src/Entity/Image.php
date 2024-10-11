@@ -16,6 +16,11 @@ class Image
     #[ORM\Column(length: 255)]
     private ?string $url = null;
 
+    #[ORM\OneToOne(mappedBy: 'Image', cascade: ['persist', 'remove'])]
+    private ?Product $product = null;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +41,28 @@ class Image
     public function setUrl(string $url): static
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($product === null && $this->product !== null) {
+            $this->product->setImage(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($product !== null && $product->getImage() !== $this) {
+            $product->setImage($this);
+        }
+
+        $this->product = $product;
 
         return $this;
     }
