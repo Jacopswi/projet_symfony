@@ -20,7 +20,7 @@ class CategoryFixtures extends Fixture
             'Coffret',
         ];
 
-        foreach ($categoriesData as $categoryName) {
+        foreach ($categoriesData as $key => $categoryName) {
             $category = new Category();
             $category->setNom($categoryName);
 

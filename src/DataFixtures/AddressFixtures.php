@@ -33,7 +33,7 @@ class AddressFixtures extends Fixture
             ],
         ];
 
-        foreach ($addressesData as $data) {
+        foreach ($addressesData as $key => $data) {
             $address = new Address();
             $address->setStreet($data['street'])
                     ->setPostalCode($data['postalCode'])
