@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class AddressFixtures extends Fixture
 {
-    public const ADDRESS_REFERENCE = 'Adresse Inconnue';
+    public const ADDRESS_REFERENCE = 'Adresse';
 
     public function load(ObjectManager $manager): void
     {

@@ -24,11 +24,12 @@ class OrderItem
     #[ORM\ManyToOne(inversedBy: 'OrderItem')]
     private ?Product $product = null;
 
-    /**
-     * @var Collection<int, Order>
-     */
-    #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'OrderItem')]
-    private Collection $orders;
+    #[ORM\ManyToOne(inversedBy: 'OrderItem')]
+    private ?Order $order = null;
+
+
+
+
 
     public function __construct()
     {

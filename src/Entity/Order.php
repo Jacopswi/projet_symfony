@@ -31,14 +31,14 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     public User $user;
 
+    #[ORM\ManyToOne(inversedBy: 'commande')]
+    private ?User $utilisateur = null;
+
     /**
      * @var Collection<int, OrderItem>
      */
-    #[ORM\ManyToMany(targetEntity: OrderItem::class, inversedBy: 'orders')]
+    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'order')]
     private Collection $OrderItem;
-
-    #[ORM\ManyToOne(inversedBy: 'commande')]
-    private ?User $utilisateur = null;
 
     public function __construct()
     {

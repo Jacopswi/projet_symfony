@@ -15,7 +15,7 @@ class ImageFixtures extends Fixture
         $imagesData = [
             'https://www.esc-distribution.com/11304-thickbox_default/pulp-fiction-dvd.jpg',
             'https://static.fnac-static.com/multimedia/Images/FR/NR/44/32/6e/7221828/1540-1/tsp20150928140357/Coffret-Scorsese-11-films-DVD.jpg',
-            'https://static.fnac-static.com/multimedia/Images/FR/NR/44/32/6e/7221828/1540-1/tsp20150928140357/Coffret-Scorsese-11-films-DVD.jpg',
+            'https://www.cine-tamaris.fr/wp-content/uploads/2018/07/DemoisellesNouvelleAfficheCP.png',
         ];
 
         foreach ($imagesData as $key => $imageUrl) {

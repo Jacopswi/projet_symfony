@@ -46,9 +46,9 @@ class Product
     private Collection $OrderItem;
 
     /**
-     * @var Collection<int, self>
+     * @var Collection<int, Category>
      */
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'products')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
     private Collection $Category;
 
     /**
@@ -115,12 +115,12 @@ class Product
         return $this;
     }
 
-    public function getStock(): ?string
+    public function getStock(): ?int
     {
         return $this->stock;
     }
 
-    public function setStock(string $stock): static
+    public function setStock(int $stock): static
     {
         $this->stock = $stock;
 
@@ -193,7 +193,7 @@ class Product
         return $this->Category;
     }
 
-    public function addCategory(self $category): static
+    public function addCategory(Category $category): static
     {
         if (!$this->Category->contains($category)) {
             $this->Category->add($category);
@@ -202,7 +202,7 @@ class Product
         return $this;
     }
 
-    public function removeCategory(self $category): static
+    public function removeCategory(Category $category): static
     {
         $this->Category->removeElement($category);
 
