@@ -20,23 +20,14 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
                 'reference' => 'ORD001',
                 'createdAt' => new \DateTimeImmutable(),
                 'status' => OrderStatus::EnPreparation,
-                'user' => 0, 
-                'orderItems' => [0, 1] 
+                'utilisateur' => 0, 
             ],
             [
                 'reference' => 'ORD002',
                 'createdAt' => new \DateTimeImmutable(),
                 'status' => OrderStatus::Livree,
-                'user' => 1,
-                'orderItems' => [2]
-            ],
-            [
-                'reference' => 'ORD003',
-                'createdAt' => new \DateTimeImmutable(),
-                'status' => OrderStatus::Annulee,
-                'user' => 2,
-                'orderItems' => []
-            ],
+                'utilisateur' => 1,
+            ]
         ];
 
         foreach ($ordersData as $key => $data) {
@@ -44,14 +35,11 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $order->setReference($data['reference']);
             $order->setCreatedAt($data['createdAt']);
             $order->setStatus($data['status']);
-            $order->setUtilisateur($this->getReference(UserFixtures::USER_REFERENCE . '_' . $data['user']));
+            $order->setUtilisateur($this->getReference(UserFixtures::USER_REFERENCE . '_' . $data['utilisateur']));
 
-            foreach ($data['orderItems'] as $orderItemIndex) {
-                $order->addOrderItem($this->getReference(OrderItemFixtures::ORDER_ITEM_REFERENCE . '_' . $orderItemIndex));
-            }
 
             $manager->persist($order);
-            $this->addReference(self::ORDER_REFERENCE . $key, $order);
+            $this->addReference(self::ORDER_REFERENCE . '_' . $key, $order);
         }
 
         $manager->flush();
@@ -61,7 +49,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixtures::class,
-            OrderItemFixtures::class,
         ];
     }
 }

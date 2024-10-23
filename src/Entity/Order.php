@@ -29,10 +29,8 @@ class Order
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'order')]
     #[ORM\JoinColumn(nullable: false)]
-    public User $user;
+    public User $utilisateur;
 
-    #[ORM\ManyToOne(inversedBy: 'commande')]
-    private ?User $utilisateur = null;
 
     /**
      * @var Collection<int, OrderItem>
@@ -116,4 +114,13 @@ class Order
 
         return $this;
     }
+
+    public function setStatus(OrderStatus $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+
 }

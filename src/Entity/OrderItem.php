@@ -124,23 +124,13 @@ class OrderItem
         return $this->orders;
     }
 
-    public function addOrder(Order $order): static
+    public function setOrder(Order $order): static
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->addOrderItem($this);
-        }
+        $this->order = $order;
 
         return $this;
     }
 
-    public function removeOrder(Order $order): static
-    {
-        if ($this->orders->removeElement($order)) {
-            $order->removeOrderItem($this);
-        }
 
-        return $this;
-    }
 
 }

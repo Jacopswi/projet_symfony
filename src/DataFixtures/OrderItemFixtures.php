@@ -27,7 +27,7 @@ class OrderItemFixtures extends Fixture implements DependentFixtureInterface
             [
                 'quantity' => 3,
                 'product' => 2,
-                'orders' => [2]
+                'orders' => [0]
             ],
         ];
 
@@ -42,7 +42,7 @@ class OrderItemFixtures extends Fixture implements DependentFixtureInterface
 
             foreach ($data['orders'] as $orderReference) {
                 $order = $this->getReference(OrderFixtures::ORDER_REFERENCE . '_' . $orderReference);
-                $orderItem->addOrder($order);
+                $orderItem->setOrder($order);
             }
 
             $manager->persist($orderItem);
