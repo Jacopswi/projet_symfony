@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    {{parent()}} AddressList
+{% endblock %}
+
+{% block content %}
+    <h1>Liste des adresses</h1>
+
+    <ul>
+        {% for address in addresses %}
+            <li>{{ address.street }} | {{ address.city }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+

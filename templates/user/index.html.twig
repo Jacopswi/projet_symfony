@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    {{parent()}} Liste des users
+{% endblock %}
+
+{% block content %}
+    <h1>Liste des utilisateurs</h1>
+
+    <ul>
+        {% for user in users %}
+            <li>Pseudo : {{ user.pseudo }} | Email : {{ user.email }} | Utilisateur : {{ user.firstName }} {{ user.lastName }} | Roles : {{ user.roles|join() }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+
