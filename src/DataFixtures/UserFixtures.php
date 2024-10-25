@@ -27,7 +27,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 'email' => 'cinoche@enjoyer.com',
                 'firstName' => 'Marc',
                 'lastName' => 'Carm',
-                'roles' => ["admin"],
+                'roles' => ["ROLE_ADMIN", "ROLE_USER"],
                 'password' => 'userpass1', 
             ],
             [
@@ -35,7 +35,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 'email' => 'janedoe@example.com',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'roles' => ["user"],
+                'roles' => ["ROLE_USER"],
                 'password' => 'password123',
             ]
         ];
