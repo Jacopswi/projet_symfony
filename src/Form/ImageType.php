@@ -15,10 +15,6 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('url')
-            ->add('product', EntityType::class, [
-                'class' => Product::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 

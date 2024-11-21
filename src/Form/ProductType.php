@@ -9,6 +9,9 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Enum\ProductStatus;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 class ProductType extends AbstractType
 {
@@ -19,19 +22,13 @@ class ProductType extends AbstractType
             ->add('price')
             ->add('description')
             ->add('stock')
-            ->add('status')
-            ->add('Image', EntityType::class, [
-                'class' => Image::class,
-                'choice_label' => 'id',
+            ->add('status', EnumType::class, ['class' => ProductStatus::class])
+            ->add('image', ImageType::class, [
+                'label' => 'Ajouter une image',
             ])
             ->add('Category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
-            ->add('products', EntityType::class, [
-                'class' => Product::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
                 'multiple' => true,
             ])
         ;
