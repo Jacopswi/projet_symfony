@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	Produits
+{% endblock %}
+
+{% block content %}
+	<div class="container mt-5">
+		<h1>Résultats pour "{{ query }}"</h1>
+		{% if products is not empty %}
+			<div class="container my-5">
+				<h1 class="text-center mb-4">Liste des produits</h1>
+				<div class="row">
+
+
+					{% for product in products %}
+						<div class="col-md-4 mb-4">
+							<div class="card h-100">
+								<img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+								<div class="card-body">
+									<h5 class="card-title">{{ product.name }}</h5>
+									<p class="card-text">{{ product.description }}</p>
+									<p class="card-text">
+										<strong>Prix :</strong>
+										{{ product.price }}
+										€</p>
+								</div>
+								<div class="card-footer">
+									<span class="badge bg-primary">{{ product.status.value }}</span>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		{% else %}
+			<p class="text-muted">Aucun produit trouvé pour "{{ query }}".</p>
+		{% endif %}
+	</div>
+
+{% endblock %}

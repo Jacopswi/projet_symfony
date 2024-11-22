@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modifier le produit :
+	{{ product.name }}
+{% endblock %}
+
+{% block content %}
+	<div class="container my-5">
+		<h1 class="mb-4">Modifier le produit :
+			{{ product.name }}</h1>
+
+		{{ form_start(form) }}
+		<div class="mb-3">
+			{{ form_label(form.name, "Nom du produit") }}
+			{{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+			{{ form_errors(form.name) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(form.price, "Prix") }}
+			{{ form_widget(form.price, { 'attr': {'class': 'form-control'} }) }}
+			{{ form_errors(form.price) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(form.description, "Description") }}
+			{{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+			{{ form_errors(form.description) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(form.stock, "Stock") }}
+			{{ form_widget(form.stock, { 'attr': {'class': 'form-control'} }) }}
+			{{ form_errors(form.stock) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(form.status, "Statut") }}
+			{{ form_widget(form.status, { 'attr': {'class': 'form-control'} }) }}
+			{{ form_errors(form.status) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(form.image, "Image") }}
+			{{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
+			{{ form_errors(form.image) }}
+		</div>
+
+		<div class="mb-3">
+			{{ form_label(form.Category, "Catégories") }}
+			{{ form_widget(form.Category, { 'attr': {'class': 'form-control'} }) }}
+			{{ form_errors(form.Category) }}
+		</div>
+
+		<button type="submit" class="btn btn-primary">Enregistrer</button>
+		<a href="{{ path('admin_index') }}" class="btn btn-secondary">Annuler</a>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}

@@ -44,7 +44,7 @@ class ProductController extends AbstractController
     
             $this->addFlash('success', 'Produit créé!');
      
-            return $this->redirectToRoute('product_liste');
+            return $this->redirectToRoute('admin_index');
         }
      
         return $this->render('product/new.html.twig', [
@@ -52,4 +52,67 @@ class ProductController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/search', name: 'product_search', methods: ['GET'])]
+    public function search(Request $request, ProductRepository $productRepository): Response
+    {
+        $query = $request->query->get('query', '');
+
+        $products = $productRepository->searchProducts(['name' => $query]);
+
+        if (empty($query)) {
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('product/results.html.twig', [
+            'products' => $products,
+            'query' => $query,
+        ]);
+    }
+
+    #[Route('/admin/product/edit/{id}', name: 'product_edit')]
+    public function edit(
+        Product $product, 
+        Request $request, 
+        EntityManagerInterface $entityManager
+    ): Response {
+        $form = $this->createForm(ProductType::class, $product);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le produit a été modifié avec succès.');
+
+            return $this->redirectToRoute('admin_index');
+        }
+
+        return $this->render('admin/product_edit.html.twig', [
+            'form' => $form->createView(),
+            'product' => $product,
+        ]);
+    }
+
+    #[Route('/admin/product/delete/{id}', name: 'product_delete', methods: ['POST'])]
+public function delete(
+    Product $product, 
+    Request $request, 
+    EntityManagerInterface $entityManager
+): Response {
+    if ($this->isCsrfTokenValid('delete_product_' . $product->getId(), $request->request->get('_token'))) {
+        $entityManager->remove($product);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Le produit a été supprimé avec succès.');
+    } else {
+        $this->addFlash('danger', 'Échec de la validation du token CSRF.');
+    }
+
+    return $this->redirectToRoute('admin_index');
+}
+
+
+
+
 }

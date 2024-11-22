@@ -34,6 +34,19 @@ class ProductRepository extends ServiceEntityRepository
         return $this->render('article/list.html.twig', ['pagination' => $pagination]);
     }
 
+    public function searchProducts(array $criteria): array
+{
+    $qb = $this->createQueryBuilder('p');
+
+    if (!empty($criteria['name'])) {
+        $qb->andWhere('p.name LIKE :name')
+           ->setParameter('name', '%' . $criteria['name'] . '%');
+    }
+
+    return $qb->getQuery()->getResult();
+}
+
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

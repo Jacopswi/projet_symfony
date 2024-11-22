@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Repository\ProductRepository;
+use App\Entity\Product;
 
 
 class AdminController extends AbstractController
@@ -20,22 +22,20 @@ class AdminController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      */
 
-    #[Route('/admin', name: 'admin_index')]
-    public function index(UserRepository $userRepository): Response
-    {
-        $users = $userRepository->findAll();
-        return $this->render('user/index.html.twig', [
-            'users' => $users,
-        ]);
-
-        dump($users); 
-
-        return $this->render('user/index.html.twig', [
-            'users' => $users,
-        ]);
-
-        
-    }
+     #[Route('/admin', name: 'admin_index')]
+     public function index(UserRepository $userRepository, ProductRepository $productRepository): Response
+     {
+         $users = $userRepository->findAll();
+         $products = $productRepository->findAll();
+     
+         dump($users, $products);
+     
+         return $this->render('admin/index.html.twig', [
+             'users' => $users,
+             'products' => $products,
+         ]);
+     }
+     
 
     
 }

@@ -1,14 +1,57 @@
-{% extends 'base.html.twig' %}
- 
-{% block title %}Nouveau Produit{% endblock %}
- 
-{% block content %}
-    <h1>Ajouter un nouveau produit</h1>
- 
-    {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        <button type="submit">Ajouter</button>
-    {{ form_end(form) }}
- 
-    <a href="{{ path('product_liste') }}">Retour à la liste des produits</a>
+{% extends "base.html.twig" %}
+{% block title %}
+    Produits
 {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Ajouter un Nouveau Produit</h2>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    
+                    <div class="mb-3">
+                        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_row(form.price, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_row(form.description, {'attr': {'class': 'form-control', 'rows': '4'}}) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_row(form.stock, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_row(form.status, {'attr': {'class': 'form-select'}}) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_row(form.image, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_row(form.Category, {'attr': {'class': 'form-select'}}) }}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">Ajouter</button>
+                        <a href="{{ path('product_liste') }}" class="btn btn-secondary btn-lg">Retour à la liste des produits</a>
+                    </div>
+                    
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
