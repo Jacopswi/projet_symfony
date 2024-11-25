@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Category;
 
 
 /**
@@ -45,6 +46,17 @@ class ProductRepository extends ServiceEntityRepository
 
     return $qb->getQuery()->getResult();
 }
+
+public function findByCategory(Category $category)
+{
+    return $this->createQueryBuilder('p')
+        ->join('p.Category', 'c')
+        ->where('c = :category')
+        ->setParameter('category', $category)
+        ->getQuery()
+        ->getResult();
+}
+
 
 
 //    /**

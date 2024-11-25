@@ -11,19 +11,25 @@ use Symfony\Component\Form\FormBuilderInterface;
 use App\Form\ProductType;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use App\Entity\Category;
+use App\Repository\CategoryRepository;
 
 
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'product_liste')]
-    public function index(ProductRepository $productRepository): Response
+    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
+        $categories = $categoryRepository->findAll();
+        $categoryId = $request->query->get('category');
+
         $products = $productRepository->findAll();
         return $this->render('product/index.html.twig', [
             'products' => $products,
+            'categories' => $categories
         ]);
 
-        dump($products); // This will print the content in the Symfony Profiler
+        dump($products);
 
         return $this->render('product/index.html.twig', [
             'products' => $products,
@@ -100,17 +106,25 @@ public function delete(
     Request $request, 
     EntityManagerInterface $entityManager
 ): Response {
-    if ($this->isCsrfTokenValid('delete_product_' . $product->getId(), $request->request->get('_token'))) {
         $entityManager->remove($product);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Le produit a été supprimé avec succès.');
-    } else {
-        $this->addFlash('danger', 'Échec de la validation du token CSRF.');
-    }
-
     return $this->redirectToRoute('admin_index');
 }
+
+#[Route('/category/{id}', name: 'product_by_category')]
+public function showByCategory(
+    Category $category, 
+    ProductRepository $productRepository
+): Response {
+    $products = $productRepository->findByCategory($category);
+
+    return $this->render('product/category.html.twig', [
+        'category' => $category,
+        'products' => $products,
+    ]);
+}
+
 
 
 
