@@ -60,21 +60,21 @@ class ProductController extends AbstractController
     }
 
     #[Route('/search', name: 'product_search', methods: ['GET'])]
-    public function search(Request $request, ProductRepository $productRepository): Response
-    {
-        $query = $request->query->get('query', '');
+public function search(Request $request, ProductRepository $productRepository): Response
+{
+    $query = $request->query->get('query', '');  
 
-        $products = $productRepository->searchProducts(['name' => $query]);
+    $products = $productRepository->searchProducts(['name' => $query]);
 
-        if (empty($query)) {
-            return $this->redirectToRoute('home');
-        }
-
-        return $this->render('product/results.html.twig', [
-            'products' => $products,
-            'query' => $query,
-        ]);
+    if (empty($query)) {
+        return $this->redirectToRoute('product_liste');  
     }
+
+    return $this->render('product/results.html.twig', [
+        'products' => $products,
+        'query' => $query    ]);
+}
+
 
     #[Route('/admin/product/edit/{id}', name: 'product_edit')]
     public function edit(
@@ -124,9 +124,5 @@ public function showByCategory(
         'products' => $products,
     ]);
 }
-
-
-
-
 
 }

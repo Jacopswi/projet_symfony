@@ -34,14 +34,18 @@
 								<p class="card-text">
 									<strong>Prix :</strong>
 									{{ product.price }}
-									€</p>
+									€
+								</p>
 							</div>
-							<div class="card-footer">
+							<div class="card-footer d-flex justify-content-between align-items-center">
 								<span class="badge bg-primary">{{ product.status.value }}</span>
+								<a href="{{ path('cart_add', {id: product.id}) }}" class="btn btn-success btn-sm">
+									Ajouter au panier
+								</a>
 							</div>
 						</div>
 					</div>
 				{% endfor %}
+
 			</div>
-		</div>
-	{% endblock %}
+		{% endblock %}

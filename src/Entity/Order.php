@@ -122,5 +122,11 @@ class Order
         return $this;
     }
 
+    public function getStatus(): ?OrderStatus
+{
+    return $this->status;
+}
+
+
 
 }
