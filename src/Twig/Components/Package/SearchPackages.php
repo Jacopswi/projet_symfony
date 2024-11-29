@@ -1,7 +1,7 @@
 <?php
 
 // src/Twig/Components/ProductSearch.php
-namespace App\Twig\Components;
+namespace App\Twig\Components\Package;
 
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;

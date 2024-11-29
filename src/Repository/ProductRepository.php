@@ -36,13 +36,23 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     public function searchProducts(array $criteria): array
-{
+{   
     $qb = $this->createQueryBuilder('p');
 
     if (!empty($criteria['name'])) {
         $qb->andWhere('p.name LIKE :name')
            ->setParameter('name', '%' . $criteria['name'] . '%');
     }
+
+    return $qb->getQuery()->getResult();
+}
+
+public function search(string $criteria): array
+{   
+    $qb = $this->createQueryBuilder('p');
+
+        $qb->andWhere('p.name LIKE :name')
+           ->setParameter('name', '%' . $criteria . '%');
 
     return $qb->getQuery()->getResult();
 }

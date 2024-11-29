@@ -1,0 +1,29 @@
+<div {{ attributes }}>
+	<input class="form-control me-2" type="search" data-model="query">
+
+
+	<div class="row">
+		{% for product in this.products %}
+			<div class="col-md-4 mb-4">
+				<div class="card h-100">
+					<img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+					<div class="card-body">
+						<h5 class="card-title">{{ product.name }}</h5>
+						<p class="card-text">{{ product.description }}</p>
+						<p class="card-text">
+							<strong>Prix :</strong>
+							{{ product.price }}
+							€
+						</p>
+					</div>
+					<div class="card-footer">
+						<form action="{{ path('cart_add', {id: product.id}) }}" method="post" class="d-flex justify-content-between">
+							<input type="number" name="quantity" value="1" min="1" class="form-control w-50 me-2"/>
+							<button type="submit" class="btn btn-success btn-sm">Ajouter au panier</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
