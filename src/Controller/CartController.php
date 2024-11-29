@@ -39,21 +39,41 @@ class CartController extends AbstractController
         ]);
     }
 
-    #[Route('/cart/add/{id}', name: 'cart_add')]
-    public function add($id, SessionInterface $session): Response
-    {
-        $cart = $session->get('cart', []);
+    #[Route('/cart/add/{id}', name: 'cart_add', methods: ['POST'])]
+public function add($id, Request $request, SessionInterface $session, ProductRepository $productRepository): Response
+{
+    $product = $productRepository->find($id);
 
-        if (!empty($cart[$id])) {
-            $cart[$id]++;
-        } else {
-            $cart[$id] = 1;
-        }
-
-        $session->set('cart', $cart);
-
-        return $this->redirectToRoute('cart_index');
+    if (!$product) {
+        throw $this->createNotFoundException('Produit non trouvé.');
     }
+
+    $stock = $product->getStock();
+
+    $cart = $session->get('cart', []);
+
+    $quantityRequested = (int) $request->request->get('quantity', 1);
+
+    $currentQuantityInCart = $cart[$id] ?? 0;
+
+    $newQuantity = $currentQuantityInCart + $quantityRequested;
+
+    if ($newQuantity > $stock) {
+        $this->addFlash(
+            'error',
+            'La quantité demandée dépasse le stock disponible. Stock maximum : ' . $stock
+        );
+        return $this->redirectToRoute('product_liste'); 
+    }
+
+    $cart[$id] = $newQuantity;
+    $session->set('cart', $cart);
+
+    $this->addFlash('success', 'Le produit a été ajouté au panier.');
+
+    return $this->redirectToRoute('cart_index'); 
+}
+
 
     #[Route('/cart/remove/{id}', name: 'cart_remove')]
     public function remove($id, SessionInterface $session): Response
