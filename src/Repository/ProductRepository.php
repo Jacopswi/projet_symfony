@@ -6,6 +6,7 @@ use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Category;
+use Doctrine\ORM\Query;
 
 
 /**
@@ -65,6 +66,12 @@ public function findByCategory(Category $category)
         ->setParameter('category', $category)
         ->getQuery()
         ->getResult();
+}
+
+public function findAllQuery(): Query
+{
+    return $this->createQueryBuilder('p')
+        ->getQuery();
 }
 
 

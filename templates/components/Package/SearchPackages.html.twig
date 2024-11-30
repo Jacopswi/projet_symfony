@@ -1,6 +1,7 @@
 <div {{ attributes }}>
-	<input class="form-control me-2" type="search" data-model="query">
-
+	<div class="mb-5">
+		<input class="form-control form-control-lg me-2" type="search" data-model="query" placeholder="Recherchez un produit">
+	</div>
 
 	<div class="row">
 		{% for product in this.products %}

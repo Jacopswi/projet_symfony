@@ -13,6 +13,8 @@ use App\Entity\Product;
 use App\Repository\ProductRepository;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
+use App\Form\SearchForm;
+
 
 
 class ProductController extends AbstractController
@@ -36,7 +38,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/new', name: 'product_new')]
+    #[Route('/admin/product/new', name: 'product_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $product = new Product();
@@ -53,11 +55,12 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('admin_index');
         }
      
-        return $this->render('product/new.html.twig', [
+        return $this->render('admin/new.html.twig', [
             'product' => $product,
             'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/search', name: 'product_search', methods: ['GET'])]
 public function search(Request $request, ProductRepository $productRepository): Response
@@ -65,6 +68,11 @@ public function search(Request $request, ProductRepository $productRepository): 
     $query = $request->query->get('query', '');  
 
     $products = $productRepository->searchProducts(['name' => $query]);
+
+    $form = $this->createForm(SearchForm::class, $products);
+     
+    $form->handleRequest($request);
+ 
 
     if (empty($query)) {
         return $this->redirectToRoute('product_liste');  
@@ -74,6 +82,8 @@ public function search(Request $request, ProductRepository $productRepository): 
         'products' => $products,
         'query' => $query    ]);
 }
+
+
 
 
     #[Route('/admin/product/edit/{id}', name: 'product_edit')]
