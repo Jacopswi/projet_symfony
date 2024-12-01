@@ -83,6 +83,31 @@ public function search(Request $request, ProductRepository $productRepository): 
         'query' => $query    ]);
 }
 
+#[Route('/product/{id}', name: 'product_details', requirements: ['id' => '\d+'])]
+    public function details(Product $product): Response
+    {
+        return $this->render('product/details.html.twig', [
+            'product' => $product,
+        ]);
+    }
+
+#[Route('/autofill', name: 'product_autofill', methods: ['GET'])]
+public function autofill(Request $request, ProductRepository $productRepository): Response
+{
+    {
+        $form = $this->createForm(SearchForm::class);
+
+        // Traitement de la soumission, mais pas besoin de logique côté serveur pour les résultats
+        $form->handleRequest($request);
+
+        return $this->render('product/results.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+}
+
+
+
 
 
 

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du produit - {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+        </div>
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            <p class="text-muted">Référence : #{{ product.id }}</p>
+            <p><strong>Description :</strong></p>
+            <p>{{ product.description }}</p>
+            <p><strong>Prix :</strong> {{ product.price }} €</p>
+            <p><strong>Stock :</strong> {{ product.stock }}</p>
+
+            <form action="{{ path('cart_add', {id: product.id}) }}" method="post" class="d-flex">
+                <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="form-control w-25 me-2" {% if product.status.value == 'en_rupture' %} disabled {% endif %}>
+                <button type="submit" class="btn btn-success" {% if product.status.value == 'en_rupture' %} disabled {% endif %}>Ajouter au panier</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

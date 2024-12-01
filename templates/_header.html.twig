@@ -16,33 +16,31 @@
                 <!-- Search bar in the center -->
                 <form class="d-flex w-50" action="{{ path('product_search') }}" method="GET">
                     <input class="form-control me-2" type="search" name="query" placeholder="Rechercher un produit" aria-label="Search">
-                    <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+                    <button class="btn btn-outline-primary" type="submit">{% trans %}Rechercher{% endtrans %}</button>
                 </form>
-
             </div>
 
-            <!-- Panier button -->
+            <!-- Right section: Panier, Login, and Language Switch -->
             <div class="d-flex ms-auto align-items-center">
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('admin_index') }}" class="btn btn-outline-warning me-2">
-                        <i class="bi bi-gear-fill"></i> Panneau Admin
+                        <i class="bi bi-gear-fill"></i> {% trans %}Panneau Admin{% endtrans %}
                     </a>
                     <a href="{{ path('app_logout') }}" class="btn btn-outline-info me-2">
-                        <i class="bi bi-person-fill"></i> Se déconnecter
+                        <i class="bi bi-person-fill"></i> {% trans %}Se déconnecter{% endtrans %}
                     </a>
                 {% elseif is_granted('ROLE_USER') %}
                     <a href="{{ path('app_logout') }}" class="btn btn-outline-info me-2">
-                        <i class="bi bi-person-fill"></i> Se déconnecter
+                        <i class="bi bi-person-fill"></i> {% trans %}Se déconnecter{% endtrans %}
                     </a>
                 {% else %}
                     <a href="{{ path('app_login') }}" class="btn btn-outline-info me-2">
-                        <i class="bi bi-person-fill"></i> Se connecter
+                        <i class="bi bi-person-fill"></i> {% trans %}Se connecter{% endtrans %}
                     </a>
                 {% endif %}
 
-
-                <a href="{{ path('cart_index') }}" class="btn btn-outline-success">
-                    <i class="bi bi-cart-fill"></i> Panier
+                <a href="{{ path('cart_index') }}" class="btn btn-outline-success me-2">
+                    <i class="bi bi-cart-fill"></i> {% trans %}Panier{% endtrans %}
                 </a>
             </div>
         </div>
