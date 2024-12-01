@@ -14,28 +14,49 @@ use App\Repository\ProductRepository;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Form\SearchForm;
+use Knp\Component\Pager\PaginatorInterface;
+
 
 
 
 class ProductController extends AbstractController
 {
     #[Route('/product', name: 'product_liste')]
-    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request): Response
+    public function index(ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request, PaginatorInterface $paginator): Response
+    {
+        $categories = $categoryRepository->findAll();
+        $categoryId = $request->query->get('category');
+
+        $qb = $productRepository->createQueryBuilder('p')
+        ->orderBy('p.id', 'ASC');
+
+        $pagination = $paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1), 
+            9 
+        );
+
+        $products = $productRepository->findAll();
+        return $this->render('product/index.html.twig', [
+            'products' => $products,
+            'categories' => $categories,
+            'pagination' => $pagination,
+        ]);
+
+    }
+
+    #[Route('/rec_dynamique', name: 'product_dynamique')]
+    public function recDyn(ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
         $categories = $categoryRepository->findAll();
         $categoryId = $request->query->get('category');
 
         $products = $productRepository->findAll();
-        return $this->render('product/index.html.twig', [
+        return $this->render('product/recDynamique.html.twig', [
             'products' => $products,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
 
-        dump($products);
-
-        return $this->render('product/index.html.twig', [
-            'products' => $products,
-        ]);
     }
 
     #[Route('/admin/product/new', name: 'product_new')]

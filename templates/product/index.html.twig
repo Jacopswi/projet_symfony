@@ -22,11 +22,46 @@
 		</div>
 
 		<div class="container my-5">
+			<a href="{{ path('product_dynamique')}}" class="text-center mb-4">Page de recherche dynamique</a>
 			<h1 class="text-center mb-4">Liste des produits</h1>
-			{{ component('Package:SearchPackages') }}
+			
+
+
 			<div class="row">
+		{% for product in pagination.items %}
+			<div class="col-md-4 mb-4">
+				<div class="card h-100">
+					<a href="{{ path('product_details', {id: product.id}) }}">
+						<img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+
+						<div class="card-body">
+							<h5 class="card-title">{{ product.name }}</h5>
+						</a>
+						<p class="card-text">{{ product.description }}</p>
+						<p class="card-text">
+							<strong>Prix :</strong>
+							{{ product.price }}
+							€
+						</p>
+					</div>
+					<div class="card-footer">
+						<form action="{{ path('cart_add', {id: product.id}) }}" method="post" class="d-flex justify-content-between">
+							<input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="form-control w-50 me-2" {% if product.status.value == 'en_rupture' %} disabled {% endif %}>
+							<button type="submit" class="btn btn-success btn-sm" {% if product.status.value == 'en_rupture' %} disabled {% endif %}>
+								Ajouter au panier
+							</button>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class="pagination-container d-flex justify-content-center mt-4">
+    {{ knp_pagination_render(pagination) }}
+</div>
 				
 
 
-			</div>
 		{% endblock %}
